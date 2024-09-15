@@ -25,7 +25,6 @@ const LoginForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = async (values, { resetForm }) => {
-    const name = values.email.split('@')[0];
     const formData = {
       email: values.email.trim(),
       password: values.password.trim(),
@@ -37,7 +36,8 @@ const LoginForm = () => {
         autoClose: 1200,
       });
     } else {
-      toast.success(`You have successfully logged in ${name}.`, {
+      const name = result.payload?.user?.name || 'User'; 
+      toast.success(`You have successfully logged in as ${name}.`, {
         autoClose: 1200,
       });
       resetForm();

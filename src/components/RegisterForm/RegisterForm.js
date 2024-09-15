@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import Logotip from '../../images/logo.svg';
 import {
   EmailIcon,
+  UserIcon,
   ErrorContainer,
   ErrorMessageStyled,
   FormStyled,
@@ -19,6 +20,10 @@ import { ProgressBar } from './ProgressBar';
 import { useState } from 'react';
 
 const ValidationSchema = Yup.object().shape({
+  username: Yup.string()
+    .min(3, 'Must be at least 3 characters')
+    .max(20, 'Must be 20 characters or less')
+    .required('Required'),
   email: Yup.string().email('Invalid email address').required('Required'),
   password: Yup.string()
     .min(6, 'Must be at least 6 characters')
@@ -34,19 +39,25 @@ const RegisterForm = () => {
   const [password, setPassword] = useState('');
 
   const handleSubmit = (values, { resetForm }) => {
-    const name = values.email.split('@')[0];
-    const formData = {
+    const credentials = {
+      name: values.username.trim(),
       email: values.email.trim(),
       password: values.password.trim(),
-      name,
     };
-    dispatch(register(formData));
-    resetForm();
+
+    dispatch(register(credentials))
+      .then(() => {
+        resetForm();
+      })
+      .catch(error => {
+        console.error('Registration failed:', error);
+      });
   };
 
   return (
     <Formik
       initialValues={{
+        name: '',
         email: '',
         password: '',
         passwordConfirm: '',
@@ -67,6 +78,22 @@ const RegisterForm = () => {
             />
             <h3>MoneyGuard</h3>
           </LogotipStyled>
+          <LabelStyled>
+            <ErrorContainer>
+              <IconContainer>
+                <UserIcon />
+              </IconContainer>
+              <InputStyled
+                name="username"
+                type="text"
+                placeholder="Username"
+                autoComplete="off"
+              />
+              <ErrorMessageStyled>
+                <ErrorMessage component="span" name="username" />
+              </ErrorMessageStyled>
+            </ErrorContainer>
+          </LabelStyled>
 
           <LabelStyled>
             <ErrorContainer>

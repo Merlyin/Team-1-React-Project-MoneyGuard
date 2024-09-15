@@ -33,12 +33,11 @@ export const Header = () => {
   const buttonRef = useRef(null);
 
   const user = useSelector(selectUser);
-  const username = user.email ? user.email.split('@')[0] : '';
+  const username = user.name;
 
   const goToHome = () => {
     navigate('/home');
   };
-
 
   return (
     <Div>
@@ -56,7 +55,6 @@ export const Header = () => {
               type="button"
               onClick={() => dispatch(toggleLogOutModal())}
             >
-
               <ExitOutline />
               <ExitText>Exit</ExitText>
             </ExitButton>

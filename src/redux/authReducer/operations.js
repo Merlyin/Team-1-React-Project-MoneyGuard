@@ -17,13 +17,18 @@ export const register = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post('/users/register', credentials);
+
       setAuthHeader(response.data.token);
+
       if (response.data && response.status === 201) {
-        const name = credentials.name;
-        toast.success(`Welcome to Money Guard, ${name}!`, {
-          autoClose: 1200,
-        });
+        toast.success(
+          `Welcome to Money Guard, ${response.data.user.name}!`,
+          {
+            autoClose: 1200,
+          }
+        );
       }
+
       return response.data;
     } catch (error) {
       if (error.response) {
@@ -33,7 +38,24 @@ export const register = createAsyncThunk(
             autoClose: 1200,
           });
           return rejectWithValue(error.message);
+        } else {
+          toast.error(
+            `Registration failed: ${
+              error.response.data.message || 'An error occurred.'
+            }`,
+            {
+              position: 'top-right',
+              autoClose: 1200,
+            }
+          );
+          return rejectWithValue(error.response.data.message || error.message);
         }
+      } else {
+        toast.error(`Registration failed: ${error.message}`, {
+          position: 'top-right',
+          autoClose: 1200,
+        });
+        return rejectWithValue(error.message);
       }
     }
   }
@@ -47,6 +69,13 @@ export const logIn = createAsyncThunk(
       setAuthHeader(response.data.token);
       return response.data;
     } catch (error) {
+      toast.error(
+        `Login failed: ${error.response?.data?.message || error.message}`,
+        {
+          position: 'top-right',
+          autoClose: 1200,
+        }
+      );
       return rejectWithValue(error.message);
     }
   }
@@ -59,6 +88,10 @@ export const logOut = createAsyncThunk(
       await axios.post('/users/logout');
       clearAuthHeader();
     } catch (error) {
+      toast.error(`Logout failed: ${error.message}`, {
+        position: 'top-right',
+        autoClose: 1200,
+      });
       return rejectWithValue(error.message);
     }
   }
