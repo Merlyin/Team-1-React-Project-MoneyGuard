@@ -73,7 +73,7 @@ export default function EditTransaction({ id }) {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get(`/transaction-categories`);
+      const response = await axios.get(`/transactions/categories`);
       setCategories(response.data);
     } catch (error) {
       return error.message;
