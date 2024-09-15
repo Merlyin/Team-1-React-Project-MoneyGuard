@@ -72,7 +72,7 @@ export default function AddTransaction() {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get(`/transactions/categories`);
+      const response = await axios.get(`/transaction-categories`);
       setCategories(response.data);
     } catch (error) {
       return error.message;

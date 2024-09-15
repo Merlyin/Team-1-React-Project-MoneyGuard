@@ -2,7 +2,7 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
-axios.defaults.baseURL = 'https://moneyguardbackend.onrender.com/';
+axios.defaults.baseURL = 'https://wallet.b.goit.study/api';
 
 export const fetchTransactions = createAsyncThunk(
   'transactions/fetchAll',

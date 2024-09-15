@@ -13,7 +13,7 @@ const WrongPage = () => {
 
       <CustomButton
         type="button"
-        onClick={() => (window.location.href = '/MoneyGuard/home')}
+        onClick={() => (window.location.href = '/Team-1-React-Project-MoneyGuard/home')}
       >
         GO HOME{' '}
       </CustomButton>
