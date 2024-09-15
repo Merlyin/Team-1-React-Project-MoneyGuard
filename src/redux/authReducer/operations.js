@@ -2,7 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-axios.defaults.baseURL = 'https://moneyguardbackend.onrender.com/';
 axios.defaults.baseURL = 'https://wallet.b.goit.study/api';
 
 const setAuthHeader = token => {
@@ -70,7 +69,6 @@ export const logIn = createAsyncThunk(
   'auth/login',
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/users/login', credentials);
       const response = await axios.post('/auth/sign-in', credentials);
       setAuthHeader(response.data.token);
       return response.data;
